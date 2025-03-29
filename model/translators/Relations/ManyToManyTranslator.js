@@ -1,7 +1,7 @@
-const { Translator } = require("./Translator");
-const { Table } = require("../Table");
+const { RelationTranslator } = require("./RelationTranslator");
+const { Table } = require("../../Table");
 
-class ManyToManyTranslator extends Translator {
+class ManyToManyTranslator extends RelationTranslator {
   constructor() {
     super(null, "N", null, "N");
   }
@@ -24,8 +24,15 @@ class ManyToManyTranslator extends Translator {
       relation.attributes
     );
 
-    bridge_table.add_key(relation.key);
+    this.logger?.log(`Created bridge table ${bridge_table.name}`);
+
+    if (relation.key) bridge_table.add_keys(relation.key);
+    this.logger?.log(
+      `Adding to key of ${bridge_table.name} the combination of ${combined_keys}`
+    );
+
     bridge_table.add_foreign_keys(combined_keys);
+    this.logger?.log(`Set ${bridge_table.name}'s FK ${combined_keys}`);
 
     return tables.concat(bridge_table);
   }

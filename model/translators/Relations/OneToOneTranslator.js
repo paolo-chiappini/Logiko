@@ -1,6 +1,6 @@
-const { Translator } = require("./Translator");
+const { RelationTranslator } = require("./RelationTranslator");
 
-class OneToOneTranslator extends Translator {
+class OneToOneTranslator extends RelationTranslator {
   constructor() {
     super(null, "1", null, "1");
   }
@@ -16,11 +16,31 @@ class OneToOneTranslator extends Translator {
     const from_entity = tables.find((t) => t.name == relation.from.entity);
     const to_entity = tables.find((t) => t.name == relation.to.entity);
 
+    let absorbing_entity = null;
+    let absorbed_entity = null;
+
     if (relation.from.cardinality.min == 0) {
-      to_entity.add_foreign_keys(from_entity.key);
+      absorbed_entity = to_entity;
+      absorbing_entity = from_entity;
+      this.logger?.log(
+        `Adding FK of ${from_entity.name} to ${to_entity.name} (translation towards mandatory participation entity of min carindality 1)`
+      );
     } else {
-      // Indiffirent where the fk goes, as policy, choose always the "from entity"
-      from_entity.add_foreign_keys(to_entity.key);
+      absorbed_entity = from_entity;
+      absorbing_entity = to_entity;
+      this.logger?.log(`Adding FK of ${to_entity.name} to ${from_entity.name}`);
+    }
+
+    absorbing_entity.add_foreign_keys(absorbed_entity.key);
+    this.logger?.log(
+      `Adding FK of ${absorbed_entity.name} to ${absorbing_entity.name} (translation towards max cardinality 1)`
+    );
+
+    if (relation.attributes) {
+      absorbing_entity.add_attributes(relation.attributes);
+      this.logger?.log(
+        `Adding attributes of relation ${relation.name} to ${absorbing_entity.name} (same direction as FK)`
+      );
     }
 
     return tables;
