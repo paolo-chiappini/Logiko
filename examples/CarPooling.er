@@ -1,0 +1,39 @@
+# To run: logiko -f ./examples/CarPooling.er -v
+
+title: ITIA 2017 Car Pooling 
+
+# Entities
+
+[Auto]              -k Targa                -a Modello 
+[Viaggio]           -k ID_Viaggio           -a Data, Ora, Contributo, StimaDurata, NumPasseggeri, Aperto
+[Prenotazione]      -k ID_Prenotazione      -a Stato
+[Città]             -k ID_Città             -a Nome
+[Utente]            -k ID_Utente            -a Foto, Nome, Cognome, Telefono, Email
+[Autista]                                   -a NumPatente, ScadenzaPatente
+[Passeggero]                                -a NumDocumento 
+[Dettaglio]         -k ID_Dettaglio
+[Sosta] 
+[Bagaglio]
+[Animale]
+[Feedback]          -k ID_Feedback -a Voto, Giudizio 
+
+# Generalizations
+[Utente] <-(t,o)- [Autista], [Passeggero]
+[Dettaglio] <-(t,e)- [Sosta], [Bagaglio], [Animale]
+
+# Relations
+
+[Feedback]-(1,1)-Lascia-(1,n)-[Utente]              -a Data
+[Passeggero]-(1,n)-Prenota-(1,1)-[Prenotazione]
+[Autista]-(1,n)-Riceve-(1,1)-[Prenotazione]
+[Autista]-(1,n)-Condivide-(1,1)-[Viaggio]
+[Autista]-(1,n)-Possiede-(1,1)-[Auto]
+[Auto]-(1,n)-Usata_in-(1,1)-[Viaggio]
+[Prenotazione]-(1,1)-Per-(1,n)-[Viaggio]
+[Viaggio]-(1,n)-Caratterizzato-(1,n)-[Dettaglio]
+[Viaggio]-(1,1)-Parte-(1,n)-[Città]
+[Viaggio]-(1,1)-Arriva-(1,n)-[Città]
+
+
+
+

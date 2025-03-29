@@ -1,5 +1,17 @@
 {
+  "name": "logiko",
+  "version": "1.0.0",
+  "author": "Paolo Chiappini",
+  "description": "Simple program to translate ER models into tables",
+  "main": "index.js",
   "dependencies": {
-    "chalk": "^4.1.2"
+    "chalk": "^4.1.2",
+    "command-line-args": "^6.0.1"
+  },
+  "bin": {
+    "logiko": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
   }
 }
