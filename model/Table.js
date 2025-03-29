@@ -3,8 +3,8 @@ const chalk = require("chalk");
 class Table {
   constructor(name, key, attributes) {
     this.name = name;
-    this.key = key;
-    this.attributes = attributes;
+    this.key = key ?? [];
+    this.attributes = attributes ?? [];
     this.foreign_keys = [];
   }
 

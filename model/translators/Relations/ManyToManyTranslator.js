@@ -26,10 +26,12 @@ class ManyToManyTranslator extends RelationTranslator {
 
     this.logger?.log(`Created bridge table ${bridge_table.name}`);
 
-    if (relation.key) bridge_table.add_keys(relation.key);
-    this.logger?.log(
-      `Adding to key of ${bridge_table.name} the combination of ${combined_keys}`
-    );
+    if (relation.key) {
+      bridge_table.add_keys(relation.key);
+      this.logger?.log(
+        `Adding to key of ${bridge_table.name} the combination of ${combined_keys}`
+      );
+    }
 
     bridge_table.add_foreign_keys(combined_keys);
     this.logger?.log(`Set ${bridge_table.name}'s FK ${combined_keys}`);

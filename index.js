@@ -1,6 +1,7 @@
 const fs = require("fs");
 const { Table } = require("./model/Table");
-const { default_factory } = require("./model/translators/TranslatorFactory");
+const relation_translator = require("./model/translators/Relations/TranslatorFactory");
+const generalization_translator = require("./model/translators/Generalizations/GeneralizationTranslatorFactory");
 
 let tables = [];
 
@@ -10,8 +11,19 @@ tables = tables.concat(
   diagram.structure.entities.map((e) => new Table(e.name, e.key, e.attributes))
 );
 
+if (diagram.structure.generalizations) {
+  for (let generalization of diagram.structure.generalizations) {
+    const translator = generalization_translator.default_factory.get_translator(
+      generalization,
+      diagram
+    );
+    tables = translator.translate(tables, generalization, diagram);
+  }
+}
+
 for (let relation of diagram.structure.relations) {
-  translator = default_factory.get_translator(relation);
+  const translator =
+    relation_translator.default_factory.get_translator(relation);
   tables = translator.translate(tables, relation);
 }
 
