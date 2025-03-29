@@ -42,7 +42,7 @@ title: Demonstration
 
 # Entities
 [Person] -k Fiscal_Code -a Name, Last_Name, Email
-[Student] -a Class
+[Student] -a Study_Course
 [Teacher]
 [Subject] -k Subject_Name, Class_Year
 [Class] -k Class_Name -a Building, Floor, Classroom
@@ -51,8 +51,8 @@ title: Demonstration
 [Person] <-(t,e)- [Student], [Teacher]
 
 # Relations
-[Teacher]-(1,n)-Teaches-(1,n)-[Subject] -k School_Year
-[Student]-(1,n)-Belongs_to-(1,n)-[Class] -k School_Year -a Address
+[Teacher]-(1,n)-Teaches-(1,n)-[Subject] -k School_Year -a From_Date, To_Date
+[Student]-(1,n)-Belongs_to-(1,n)-[Class] -k School_Year
 ```
 
 For further examples refer to the `examples` and `build` folders.
