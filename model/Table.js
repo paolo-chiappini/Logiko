@@ -19,16 +19,22 @@ class Table {
     return `${this.name} (${attr_list})`;
   }
 
-  add_key(keys) {
+  add_keys(keys) {
     this.key = this.key.concat(keys);
   }
 
-  add_attribute(attributes) {
+  add_attributes(attributes) {
     this.attributes = this.attributes.concat(attributes);
   }
 
   add_foreign_keys(foreign_keys) {
     this.foreign_keys = this.foreign_keys.concat(foreign_keys);
+  }
+
+  merge(table) {
+    this.key = this.key.concat(table.key);
+    this.foreign_keys = this.foreign_keys.concat(table.foreign_keys);
+    this.attributes = this.attributes.concat(table.attributes);
   }
 }
 
