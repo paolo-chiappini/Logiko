@@ -2,7 +2,7 @@ const title_template = /^title:.*/i;
 const comment_template = /^#.*/;
 const relation_template = /\[.*\]\-.*\-\[.*\]/;
 const entity_template = /\[.*?\]/;
-const cardinality_template = /\((0|1|n),(0|1|n)\)/i;
+const cardinality_template = /\((0|1|N),(0|1|N)\)/i;
 const generalization_template = /<-\((t|p),(o|s|e)\)-/i;
 
 const key_option = "-k";
@@ -54,10 +54,10 @@ class ModelFileParser {
 
   get_cardinality(line) {
     if (!cardinality_template.test(line)) return;
-    const matches = [...line.matchAll(cardinality_regex)];
+    const matches = [...line.toUpperCase().matchAll(cardinality_regex)];
     if (matches.length !== 2) {
       throw new Error(
-        `Found ${matches.length} matches in "${line}", only 2 are allowed`
+        `Found ${matches.length} matches in "${line}", only exactly 2 are allowed`
       );
     }
     return {
@@ -77,13 +77,46 @@ class ModelFileParser {
     return line.substring(first_card + 1, second_card).replace(/-/g, "");
   }
 
+  get_generalization_type(line) {
+    const elements = line
+      .match(/\(.*\)/)[0]
+      .replace(/\(|\)/g, "")
+      .split(",");
+    return {
+      coverage: elements[0],
+      exclusivity: elements[1],
+    };
+  }
+
   parse_lines(lines) {
-    for (line of lines) {
+    for (const line of lines) {
       switch (this.line_type(line)) {
         case "title":
+          this.builder.set_title(line.replace("title:", "").trim());
+          break;
         case "entity":
+          this.builder.add_entity(
+            this.get_entities(line)[0],
+            this.get_keys(line),
+            this.get_attrs(line)
+          );
+          break;
         case "relation":
+          this.builder.add_relation(
+            this.get_relation_name(line),
+            this.get_entities(line),
+            this.get_cardinality(line),
+            this.get_keys(line),
+            this.get_attrs(line)
+          );
+          break;
         case "generalization":
+          const entities = this.get_entities(line);
+          this.builder.add_generalization(
+            entities[0],
+            entities.slice(1),
+            this.get_generalization_type(line)
+          );
         default:
       }
     }
