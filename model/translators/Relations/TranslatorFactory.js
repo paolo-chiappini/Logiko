@@ -14,7 +14,10 @@ class RelationTranslatorFactory {
   }
 
   get_translator(relation) {
-    return this.translators.filter((t) => t.match(relation))[0];
+    const translator = this.translators.filter((t) => t.match(relation))[0];
+    if (!translator)
+      throw new Error(`Cannot translate "${JSON.stringify(relation)}"`);
+    return translator;
   }
 }
 

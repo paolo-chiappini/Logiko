@@ -15,7 +15,12 @@ class GeneralizationTranslatorFactory {
 
   get_translator(generalization, diagram) {
     const decision_summary = compute_decision_summary(generalization, diagram);
-    return this.translators.filter((t) => t.match(decision_summary))[0];
+    const translator = this.translators.filter((t) =>
+      t.match(decision_summary)
+    )[0];
+    if (!translator)
+      throw new Error(`Cannot translate "${JSON.stringify(generalization)}"`);
+    return translator;
   }
 }
 

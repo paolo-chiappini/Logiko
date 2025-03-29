@@ -23,6 +23,13 @@ class UpwardTranslator extends GeneralizationTranslator {
       `Translating [${generalization.children}] upward in parent [${generalization.parent}]`
     );
 
+    if (generalization.exclusivity == "e") {
+      const attr_name = tables[parent_table_index].name + "_type";
+      tables[parent_table_index].add_attributes(attr_name);
+
+      this.logger?.log(`Adding [${attr_name}] to parent to differentiate type`);
+    }
+
     for (let child of generalization.children) {
       const child_table_index = tables.findIndex((t) => t.name == child);
       tables[parent_table_index].merge(tables[child_table_index]);

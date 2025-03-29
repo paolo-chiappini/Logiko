@@ -15,13 +15,15 @@ class HybridTranslator extends GeneralizationTranslator {
       (t) => t.name == generalization.parent
     );
 
+    console.dir(tables);
+
     this.logger?.log(
       `Translating [${generalization.parent}] and [${generalization.children}] in an hybrid way`
     );
 
     for (let child of generalization.children) {
       const child_table_index = tables.findIndex((t) => t.name == child);
-      tables[child_table_index].add_key(tables[parent_table_index].key);
+      tables[child_table_index].add_keys(tables[parent_table_index].key);
       tables[child_table_index].add_foreign_keys(
         tables[parent_table_index].key
       );
