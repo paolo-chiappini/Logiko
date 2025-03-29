@@ -36,6 +36,8 @@ The syntax of a model file is pretty straightforward:
 
 ### Example:
 
+The following example, although it doesn't make much sense, showcases a possible model-file structure.
+
 ```er
 # This is a showcase of some instructions
 title: Demonstration
@@ -54,6 +56,8 @@ title: Demonstration
 [Teacher]-(1,n)-Teaches-(1,n)-[Subject] -k School_Year -a From_Date, To_Date
 [Student]-(1,n)-Belongs_to-(1,n)-[Class] -k School_Year
 ```
+
+![img](./docs/imgs/example_er.png)
 
 For further examples refer to the `examples` and `build` folders.
 
