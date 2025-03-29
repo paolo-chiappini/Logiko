@@ -8,6 +8,10 @@ class RelationTranslatorFactory {
     this.translators = translators;
     this.logger = logger;
 
+    this.set_logger(logger);
+  }
+
+  set_logger(logger) {
     this.translators.forEach((t) => {
       t.set_logger(logger);
     });
@@ -29,6 +33,6 @@ module.exports = {
       new OneToManyTranslator(),
       new ManyToManyTranslator(),
     ],
-    new ConsoleLogger()
+    new ConsoleLogger("gray")
   ),
 };

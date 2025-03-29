@@ -15,8 +15,6 @@ class HybridTranslator extends GeneralizationTranslator {
       (t) => t.name == generalization.parent
     );
 
-    console.dir(tables);
-
     this.logger?.log(
       `Translating [${generalization.parent}] and [${generalization.children}] in an hybrid way`
     );

@@ -1,8 +1,12 @@
 const chalk = require("chalk");
 
 class ConsoleLogger {
+  constructor(color = "white") {
+    this.color = color;
+  }
+
   log(string) {
-    console.log(chalk.gray(string));
+    console.log(chalk[this.color](string));
   }
 }
 

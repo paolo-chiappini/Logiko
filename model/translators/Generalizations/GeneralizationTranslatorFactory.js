@@ -8,6 +8,10 @@ class GeneralizationTranslatorFactory {
     this.translators = translators;
     this.logger = logger;
 
+    this.set_logger(logger);
+  }
+
+  set_logger(logger) {
     this.translators.forEach((t) => {
       t.set_logger(logger);
     });
@@ -75,6 +79,6 @@ module.exports = {
   GeneralizationTranslatorFactory,
   default_factory: new GeneralizationTranslatorFactory(
     [new UpwardTranslator(), new DownwardTranslator(), new HybridTranslator()],
-    new ConsoleLogger()
+    new ConsoleLogger("gray")
   ),
 };
