@@ -88,7 +88,7 @@ class ModelFileParser {
     };
   }
 
-  parse_lines(lines) {
+  parse_model(lines) {
     for (const line of lines) {
       switch (this.line_type(line)) {
         case "title":
@@ -120,6 +120,7 @@ class ModelFileParser {
         default:
       }
     }
+    return this.builder;
   }
 }
 

@@ -37,6 +37,8 @@ class ModelBuilder {
           max: cardinality.to.max,
         },
       },
+      key: key,
+      attributes: attributes,
     });
     return this;
   }
