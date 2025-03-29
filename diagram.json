@@ -1,0 +1,46 @@
+{
+  "name": "test_diagram",
+  "structure": {
+    "entities": [
+      {
+        "name": "user",
+        "key": ["user_id"],
+        "attributes": ["first_name", "last_name", "email"]
+      },
+      {
+        "name": "product",
+        "key": ["product_id"],
+        "attributes": ["name", "price"]
+      }
+    ],
+    "relations": [
+      {
+        "name": "buys",
+        "from": {
+          "entity": "user",
+          "cardinality": {
+            "min": "0",
+            "max": "N"
+          }
+        },
+        "to": {
+          "entity": "product",
+          "cardinality": {
+            "min": "0",
+            "max": "N"
+          }
+        },
+        "key": ["date"],
+        "attributes": ["amount"]
+      }
+    ],
+    "generalizations": [
+      {
+        "into": "product",
+        "entities": ["food", "clothes"],
+        "coverage": "t",
+        "exclusivity": "e"
+      }
+    ]
+  }
+}
